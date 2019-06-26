@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.liuhanchao.sideproject.edit.mapper.EditDao">
+	<select id="selectUserInfo" resultType="org.liuhanchao.sideproject.edit.entity.UserVO">
+		<![CDATA[
+			select USER() as userName
+		]]> 
+	</select>
+	<update id="editMysqlInfo" parameterType="org.liuhanchao.sideproject.edit.entity.UserVO">
+		<![CDATA[
+			update user 
+			set Password = PASSWORD("${newPassWord}")
+			where User = '${userName}'
+			and host = 'localhost'
+		]]> 
+	</update>
+	<insert id="refreshPermissions">
+		<![CDATA[
+			flush privileges
+		]]> 
+	</insert>
+	<select id="selectPostgreSQLUserInfo" resultType="org.liuhanchao.sideproject.edit.entity.UserVO">
+		<![CDATA[
+			SELECT USER as userName
+		]]> 
+	</select>
+	<update id="editPostgreSQLInfo" parameterType="org.liuhanchao.sideproject.edit.entity.UserVO">
+		<![CDATA[
+			ALTER USER ${userName} with PASSWORD '${newPassWord}';
+		]]> 
+	</update>
+
+</mapper>
